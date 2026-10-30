@@ -1,0 +1,49 @@
+/* Композиция для широкого экрана, планшета и телефона. */
+@media(max-width:1400px){.art-stamp{display:none}}
+@media(min-width:1600px){.hero{min-height:790px;padding-top:85px}.hero-art{top:130px;width:66%;height:610px}.hero-bottom{margin-top:100px}.hero h1{font-size:120px}}
+@media(max-width:1200px){
+ .shell{width:calc(100% - 80px)}.desktop-nav{gap:22px}
+ .hero{min-height:690px;padding-top:55px}.hero h1{font-size:86px}.hero-art{right:-20px;top:145px;width:61%;height:470px}.hero-lead{max-width:355px}.hero-bottom{margin-top:65px}
+ .process-layout,.workspace,.capabilities,.requirements,.faq{gap:50px}.process-step{gap:15px}.step-title{font-size:25px}
+ .capability-blue{padding:35px}.capability-blue h2{font-size:36px}.capability-list h3{font-size:21px}
+ .pricing-console{gap:45px;padding:35px}.volume-option{font-size:14px;padding-inline:13px}.pricing-includes h3{font-size:20px}.pricing-includes ul{font-size:13px}.closing-arrow{width:85px;height:85px}
+}
+@media(max-width:900px){
+ .header{height:90px;gap:18px}.header .logo img{width:160px}.desktop-nav{gap:15px;font-size:13px}.cabinet-link{padding:12px 14px;font-size:13px;gap:15px}
+ .hero{padding-top:50px;min-height:680px}.hero h1{font-size:72px}.hero-lead{max-width:330px}.hero-art{right:-30px;width:64%;height:460px;top:155px}.art-label{font-size:13px}.label-ozon{left:23%;top:12%}.label-cdek{right:5%;bottom:23%}
+ .hero-bottom{gap:18px}.hero-bottom>p:nth-child(2){max-width:240px;flex-wrap:wrap;gap:7px}.hero .button{font-size:13px}
+ .section{padding-block:90px}.process{padding-block:75px}.process-layout{gap:38px}h2{font-size:40px}.step-title{font-size:23px}.step-arrow{width:28px;height:28px}.order-receipt{padding:20px}.receipt-order{font-size:23px}
+ .workspace{gap:35px;grid-template-columns:.85fr 1.15fr}.workspace h2{font-size:37px}.screen-tab>span:first-child{font-size:14px}.workspace-frame{transform:rotate(-1deg)}.screen-title{padding:12px}
+ .capabilities{gap:35px;grid-template-columns:1fr 1fr}.capability-blue{padding:30px;min-height:430px}.capability-blue h2{font-size:28px}.capability-brand{font-size:34px;gap:23px}.capability-list h3{font-size:20px}
+ .requirements{gap:35px}.requirements h3{font-size:18px}.pricing-console{padding:30px;gap:30px}.volume-option{font-size:13px;padding-inline:11px;min-height:60px}.volume-option>span{font-size:13px}.price-display{font-size:75px}.pricing-includes h3{font-size:18px}.pricing-includes .button{font-size:13px;min-width:220px}.extra-shop>span{font-size:14px;gap:18px}.extra-shop>p{max-width:230px}
+ .faq{gap:35px}.footer-top>p{display:none}.footer-top nav{font-size:13px;gap:20px}
+}
+@media(max-width:800px){
+ .desktop-nav{display:none}.cabinet-link{margin-left:auto}.menu-toggle{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:var(--paper)}.menu-toggle>.icon{width:21px;height:21px}
+ .mobile-nav{position:absolute;z-index:20;top:85px;left:30px;right:30px;border-radius:20px;padding:20px 25px;background:var(--paper);display:flex;flex-direction:column}.mobile-nav a{padding:15px 0;font-size:15px}
+ .hero h1{font-size:68px}.hero-copy{width:80%}.hero-art{top:185px;right:-35px;height:420px}.label-ozon{top:0;left:56%}.art-stamp{left:32%}.hero-bottom{margin-top:65px}
+}
+/* Narrow tablets need stacked content before the phone navigation/type scale. */
+@media(min-width:601px) and (max-width:760px){
+ .process-layout,.capabilities,.requirements,.faq{grid-template-columns:1fr;gap:36px}
+ .workspace{display:flex;flex-direction:column;align-items:stretch;gap:35px}
+ .workspace-frame{transform:none}.workspace-copy>p{max-width:500px}
+ .capability-blue{min-height:0}.capability-blue p{max-width:440px}
+ .closing{flex-direction:column;align-items:flex-start;gap:30px}
+ .closing-action{width:100%;justify-content:space-between}
+}
+@media(max-width:600px){
+ .shell{width:calc(100% - 40px)}.header{height:82px;gap:12px}.header .logo img{width:142px}.cabinet-link{border:0;padding:8px 0;font-size:11px;gap:0}.cabinet-link .icon{display:none}.menu-toggle{width:40px;height:40px;min-height:44px}.mobile-nav{inset:78px 20px auto}
+ .hero{padding-top:35px;min-height:0}.hero-copy{width:100%}.hero h1{font-size:clamp(43px,11vw,65px);line-height:1.04;font-weight:600}.hero-lead{max-width:360px;margin-top:23px;line-height:1.85}.hero .button{margin-top:24px;min-height:55px;font-size:13px;padding-left:21px;gap:25px}.button-arrow{width:39px;height:39px}.hero-secondary{font-size:13px;margin-top:9px;min-height:40px}
+ .hero-art{position:relative;top:auto;right:auto;width:calc(100% + 40px);margin:0 -20px;height:320px;margin-top:-6px}.hero-art canvas{animation:none}.label-ozon{top:7%;left:17%}.label-cdek{bottom:28%;right:7%}.art-label{font-size:13px;gap:5px}.art-label>span{display:none}.art-stamp{bottom:15px;left:50%;transform:translateX(-50%);white-space:nowrap}
+ .hero-bottom{margin-top:0;padding:18px 0 27px;gap:10px}.hero-bottom>p:nth-child(2){display:none}.hero-bottom>a{width:34px;height:34px}.hero-bottom .live-dot{width:5px;height:5px}
+ .dark-section,.pricing-section{margin-inline:0;border-radius:24px}.process{padding-block:55px}.process-layout{grid-template-columns:1fr;gap:40px}h2{font-size:35px;line-height:1.12}.process-intro>p{max-width:340px;margin-top:20px}.order-receipt{max-width:100%;margin-top:25px;padding:23px}.receipt-order{font-size:28px}.process-intro>.process-footnote{margin-top:18px}.process-step{gap:17px;padding-block:24px}.step-title{font-size:22px}.step-copy{gap:12px}.step-arrow{width:30px;height:30px}
+ .section{padding-block:65px}.workspace{display:flex;flex-direction:column;gap:30px;align-items:stretch}.workspace h2{font-size:35px}.workspace-copy>p{max-width:350px;margin-top:20px}.screen-tabs{margin-top:25px;display:grid;grid-template-columns:1fr 1fr;gap:8px}.screen-tab{padding:12px;align-content:start;border:1px solid var(--line);border-radius:12px;min-height:60px;gap:8px;font-size:13px}.screen-tab>span:first-child{font-size:13px}.screen-tab>.icon{width:14px;height:14px}.screen-tab.active{background:var(--paper);border-color:var(--blue)}.screen-tab .tab-description,.screen-tab.active .tab-description{display:none}.workspace-copy>.text-link{font-size:13px;margin-top:13px}.workspace-frame{transform:none;border-radius:14px}.workspace-visual{margin-top:0}.screen-title{font-size:11px;padding:12px}.screen-title>span:last-child{display:none}.image-caption{margin-top:13px}
+ .capabilities{grid-template-columns:1fr;gap:30px;padding-bottom:0}.capability-blue{padding:30px;min-height:340px;border-radius:20px}.capability-blue h2{font-size:33px}.capability-blue p{max-width:330px;margin-top:20px}.capability-brand{font-size:39px;gap:30px;padding-top:40px}.capability-list article{padding-block:24px}.capability-list article:first-child{padding-top:0}.capability-list article:last-child{padding-bottom:0}.capability-list h3{font-size:20px}
+ .requirements{grid-template-columns:1fr;gap:30px}.requirements>div>p{margin-top:18px}.requirements h3{font-size:18px}.requirements li>p{margin-top:10px}.requirements li{padding-right:38px}.section-heading{flex-direction:column;align-items:flex-start;gap:20px;margin-bottom:30px}
+ .pricing-console{grid-template-columns:1fr;padding:24px;gap:35px;border-radius:20px}.volume-options{padding:5px;gap:2px;max-width:none}.volume-option{font-size:13px;padding:10px 12px;min-height:48px;text-align:center}.volume-option>span{display:none}.price-display{font-size:78px;margin-top:35px;gap:10px}.price-display>span:last-child{font-size:36px}.selected-volume{font-size:13px;margin-top:13px}.pricing-includes{padding-top:0}.pricing-includes h3{font-size:20px}.pricing-includes ul{font-size:13px;gap:15px;margin-block:22px}.pricing-includes .button{min-width:0;width:100%;font-size:13px}.trial-copy{margin-top:15px}.extra-shop{flex-direction:column;align-items:flex-start;gap:12px;padding-block:24px 18px}.extra-shop>span{font-size:14px;gap:22px}.extra-shop>p{max-width:100%}
+ .faq{grid-template-columns:1fr;gap:30px}.faq>div:first-child>p{margin-top:20px}.faq>div:first-child>.text-link{font-size:13px;margin-top:12px}.faq-items summary{font-size:14px;line-height:1.7}.faq-items details p{padding-right:15px}.faq-items details{padding-block:18px}
+ .closing{padding-block:15px 65px;flex-direction:column;align-items:flex-start;gap:30px}.closing h2{font-size:clamp(42px,10.8vw,62px)}.closing p{margin-top:20px}.closing-action{width:100%;justify-content:space-between;font-size:14px;margin:0}.closing-arrow{width:72px;height:72px}.closing-arrow>.icon{width:29px;height:29px}
+ .footer{padding-top:30px}.footer-top{align-items:flex-start;flex-direction:column;gap:25px}.footer-top .logo img{width:153px}.footer-top nav{gap:20px;font-size:13px;flex-wrap:wrap}.footer-bottom{flex-wrap:wrap;gap:20px;margin-top:25px}.footer-bottom p{order:3;flex-basis:100%}.footer-bottom>a{margin-left:auto}
+}
+@media(max-width:360px){.header .logo img{width:132px}.cabinet-link{font-size:11px}.hero h1{font-size:40px}.hero-art{height:290px}.capability-blue{padding:25px}.capability-blue h2{font-size:29px}.capability-brand{font-size:33px}.volume-option{font-size:12px;padding-inline:8px}.price-display{font-size:69px}.pricing-includes h3{font-size:18px}.footer-top nav{gap:18px}}

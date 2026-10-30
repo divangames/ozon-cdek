@@ -1,0 +1,43 @@
+/* Montserrat выбран пользователем; локальные файлы не требуют внешних запросов. */
+@font-face{font-family:Montserrat;src:url('/fonts/montserrat-regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:Montserrat;src:url('/fonts/montserrat-medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:Montserrat;src:url('/fonts/montserrat-semibold.ttf') format('truetype');font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:Montserrat;src:url('/fonts/montserrat-bold.ttf') format('truetype');font-weight:700 800;font-style:normal;font-display:swap}
+:root{--blue:#005bff;--blue-deep:#0047d0;--green:#00a738;--ink:#17191f;--muted:#60646f;--paper:#fff;--ground:#f5f6f8;--soft:#e9ecf1;--night:#15171c;--night-muted:#a8adb9;--line:#dce0e7;--radius:24px;--ease:cubic-bezier(.23,1,.32,1);font-family:Montserrat,sans-serif;font-synthesis:none;color:var(--ink);font-weight:400;scroll-behavior:smooth;scroll-padding-top:30px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground)}
+button,a{-webkit-tap-highlight-color:transparent}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+img{display:block;max-width:100%;height:auto}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--green);outline-offset:6px}
+::selection{background:var(--blue);color:var(--paper)}
+::-webkit-scrollbar{width:8px;background:var(--ground)}
+::-webkit-scrollbar-thumb{background:#b5bbc7;border-radius:8px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+p{line-height:1.7}
+svg{flex:none}
+.icon{vertical-align:middle}
+[hidden]{display:none!important}
+.shell{width:min(1360px,calc(100% - 112px));margin-inline:auto}
+.section{padding-block:125px}
+h1{font-size:clamp(70px,7.3vw,112px);font-weight:600;line-height:1.02;letter-spacing:-.04em}
+h2{font-size:clamp(38px,4.1vw,60px);font-weight:500;line-height:1.1;letter-spacing:-.04em}
+h3{font-size:22px;font-weight:500;line-height:1.35;letter-spacing:-.025em}
+.skip-link{position:fixed;left:20px;top:-80px;background:var(--blue);color:white;padding:15px;z-index:30}
+.skip-link:focus{top:12px}
+.button{display:inline-flex;align-items:center;justify-content:space-between;gap:28px;padding:8px 8px 8px 25px;min-height:58px;border:0;border-radius:50px;font-size:14px;font-weight:500;transition:background .2s ease,transform .2s var(--ease)}
+.primary{background:var(--blue);color:var(--paper)}
+.primary:hover{background:var(--blue-deep)}
+.button-arrow{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#ffffff24}
+.button-arrow .icon{width:20px;height:20px;transform:rotate(-35deg);transition:transform .25s var(--ease)}
+.button:hover .button-arrow .icon{transform:rotate(0)}
+.button:active{transform:scale(.98)}
+.white{background:var(--paper);color:var(--blue)}
+.white .button-arrow{background:var(--soft)}
+.text-link{display:inline-flex;align-items:center;gap:22px;min-height:44px;font-size:14px;font-weight:500}
+.text-link>.icon{width:19px;height:19px;transition:transform .2s var(--ease)}
+.text-link:hover>.icon{transform:translateX(5px)}
+.live-dot{display:inline-block;flex:none;width:7px;height:7px;background:#41c697;border-radius:50%}
+@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}}

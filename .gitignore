@@ -1,0 +1,13 @@
+node_modules/
+dist/
+info/
+.private/
+Telegram.txt
+artifacts/
+*.log
+.env*
+__pycache__/
+/images/
+/video/
+.taste-skill/
+.impeccable/review/

@@ -1,0 +1,12 @@
+/* Обновлённая визуальная система: Montserrat, крупная композиция и физическая графика. */
+@import './tokens.css';
+@import './layout.css';
+@import './sections.css';
+@import './responsive.css';
+@import './motion-scenes.css';
+@import './process-demo.css';
+@import './tutorials.css';
+@import './refinements.css';
+@import './lead-form.css';
+@import './screen-gallery.css';
+@import './faq.css';

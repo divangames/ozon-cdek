@@ -1,0 +1,31 @@
+const {chromium,expect}=require('@playwright/test'),fs=require('node:fs');
+const url=process.env.CHECK_URL||'http://127.0.0.1:4174/';
+(async()=>{const browser=await chromium.launch({headless:false,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});const errors=[];fs.mkdirSync('artifacts',{recursive:true});try{
+ for(const width of [320,390,768,1024,1440,1920]){
+  const page=await browser.newPage({viewport:{width,height:1000},reducedMotion:'reduce'});page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)errors.push(`HTTP ${r.status()} ${r.url()}`);});
+  await page.goto(url,{waitUntil:'domcontentloaded'});await page.locator('h1').waitFor();await page.evaluate(()=>document.fonts.ready);await page.locator('#connection-scene.scene-ready canvas').waitFor();
+  await page.evaluate(async()=>{for(const image of document.images){image.loading='eager';await image.decode();}});
+  const layout=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,h1:document.querySelectorAll('h1').length,dead:[...document.querySelectorAll('a[href^="#"]')].filter(a=>a.hash&&!document.getElementById(a.hash.slice(1))).map(a=>a.hash),overlap:(()=>{const a=document.querySelector('.hero-copy').getBoundingClientRect(),b=document.querySelector('.hero-art').getBoundingClientRect();return a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;})()}));
+  if(layout.overflow||layout.h1!==1||layout.dead.length||layout.overlap)errors.push(JSON.stringify({width,...layout}));
+  for(const id of ['ozon','tariffs','products','cdek']){await page.locator(`[data-screen=${id}]`).click();await expect(page.locator(`#screen-${id}`)).toBeVisible();}
+  await page.locator('[data-screen=cdek]').focus();await page.keyboard.press('ArrowRight');await expect(page.locator('[data-screen=ozon]')).toHaveAttribute('aria-selected','true');
+  await page.locator('#screen-ozon a').click();await expect(page.locator('.screen-gallery')).toBeVisible();await page.keyboard.press('ArrowRight');await expect(page.locator('.gallery-counter')).toHaveText('3 / 4');await page.locator('.gallery-zoom').click();await expect(page.locator('.gallery-zoom')).toHaveAttribute('aria-pressed','true');await page.keyboard.press('Escape');await expect(page.locator('.screen-gallery')).not.toBeVisible();
+  for(const step of await page.locator('.process-step').all()){await step.click();await expect(page.locator('.process-step[aria-pressed=true]')).toHaveCount(1);}
+  for(const [volume,price]of [['500','4 800'],['1000','5 800'],['300','3 800']]){await page.locator(`[data-volume="${volume}"]`).click();await expect(page.locator('#price-value')).toHaveText(price);await expect(page.locator('#lead-plan')).toHaveValue(volume);}
+  for(const faq of await page.locator('.faq-question').all()){await faq.click();if(await page.locator('.faq-question[aria-expanded=true]').count()>1)errors.push('FAQ '+width);}
+  if(width<=800){await page.getByRole('button',{name:'Открыть меню',exact:true}).click();await expect(page.locator('#mobile-nav')).toBeVisible();await page.keyboard.press('Escape');await expect(page.locator('#mobile-nav')).not.toBeVisible();}
+  if([390,768,1440].includes(width)){
+   await page.locator('.parcel-scene').scrollIntoViewIfNeeded();await page.locator('.parcel-scene.scene-ready canvas').waitFor();await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:`artifacts/final-${width}.png`,fullPage:true});await page.screenshot({path:`artifacts/hero-${width}.png`});
+  }
+  console.log('Адаптивность и управление: '+width+'px — OK');await page.close();
+ }
+ const page=await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'no-preference'});page.on('pageerror',e=>errors.push(e.message));await page.goto(url,{waitUntil:'domcontentloaded'});await page.locator('h1').waitFor();
+ for(const id of ['integration','small-delivery','large-delivery','products']){await page.locator(`[data-tutorial="${id}"]`).click();await page.locator('#tutorial-video').evaluate(async v=>{v.muted=true;await v.play();});await page.waitForFunction(()=>document.querySelector('video').currentTime>.1);const duration=await page.locator('video').evaluate(v=>{v.pause();return v.duration;});if(!Number.isFinite(duration)||duration<30)errors.push('Видео '+id);console.log('Воспроизведение видео: '+id+' — OK');}
+ await page.locator('#network-art').scrollIntoViewIfNeeded();await page.locator('#network-art canvas').waitFor({timeout:15000});await page.locator('#network-art').screenshot({path:'artifacts/vanta.png'});
+ let requests=[],failure=true;await page.route('**/api/leads',route=>{requests.push(route.request().postDataJSON());return route.fulfill({status:failure?502:200,contentType:'application/json',body:JSON.stringify({ok:!failure})});});
+ await page.locator('#lead-name').fill('Проверка интерфейса');await page.locator('#lead-contact').fill('123');await page.locator('[name=consent]').check();await page.locator('.lead-submit').click();if(requests.length)errors.push('Валидация формы');
+ await page.locator('#lead-contact').fill('+7 999 000-00-00');await page.locator('#lead-plan').selectOption('500');await page.locator('.lead-submit').click();await expect(page.locator('.lead-status.is-error')).toBeVisible();await expect(page.locator('.lead-success')).not.toBeVisible();
+ failure=false;await page.locator('.lead-submit').click();await expect(page.locator('.lead-success')).toBeVisible();if(requests.length!==2||requests[0].submissionId!==requests[1].submissionId||requests[1].plan!=='500')errors.push('Повтор формы или тариф');await page.locator('.lead-another').click();await expect(page.locator('#lead-name')).toHaveValue('');console.log('Форма: валидация, ошибка, повтор, успех — OK (без отправки сообщения)');
+ await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'artifacts/hero-motion.png'});await page.close();
+ if(errors.length)throw Error(errors.join('\n'));console.log('Все проверки браузера пройдены.');
+}finally{await browser.close();}})().catch(e=>{console.error(e.message);process.exitCode=1;});

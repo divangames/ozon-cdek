@@ -1,0 +1,53 @@
+/* Independent hero columns keep every label outside the text and sculpture. */
+.hero{display:grid;grid-template-columns:1.12fr 1fr;align-items:center;gap:24px;min-height:0;padding-top:55px}
+.hero-copy{width:100%;min-width:0;pointer-events:auto}
+.hero-free{font-size:14px;font-weight:600;color:var(--green);margin-top:24px}
+.hero-free+.hero-lead{margin-top:12px}
+.hero h1{font-size:clamp(56px,5.45vw,86px);line-height:1.06;text-wrap:nowrap}
+.hero-art{position:relative;inset:auto;width:100%;height:490px;margin:0;min-width:0}
+.hero-art canvas{animation:none}
+.scene-legend{position:absolute;inset:8px 16px auto;display:flex;justify-content:space-between;gap:20px;z-index:2;pointer-events:none}
+.art-label{position:static;font-size:16px;gap:6px}
+.art-label>span{display:block;font-size:12px}
+.label-cdek{text-align:right}
+.art-stamp{display:block;inset:auto 0 8px;text-align:center;transform:none;font-size:12px;pointer-events:none}
+.hero-bottom{grid-column:1/-1;margin-top:0;padding-block:20px 30px}
+.hero-art canvas,.mini-scene canvas{touch-action:pan-y;cursor:grab}
+.dragging canvas{cursor:grabbing}
+.mini-scene{position:relative;isolation:isolate;height:250px;min-width:0}
+.mini-scene canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
+.mini-scene .scene-fallback{font-size:32px}
+.capability-blue{background:var(--green);padding-bottom:30px}
+.capability-blue p{color:white}
+.capability-brand{padding-top:0;font-size:34px;justify-content:space-between;margin-top:0}
+.capability-brand>span{color:#fff9}
+.parcel-scene{height:320px;margin-block:0 10px}
+.parcel-scene .scene-fallback{color:white}
+.flow-scene{height:290px;max-width:520px;margin-top:12px}
+.screen-tab[data-screen=cdek].active{color:var(--green)}
+.process-step[data-step="1"].active .step-arrow{background:var(--green);border-color:var(--green)}
+.process-step[data-step="1"].active .step-index{color:#8aefa6}
+.requirements li:nth-child(2)>.icon{color:var(--green)}
+.closing h2 span{color:var(--green)}
+.closing-arrow{background:var(--green)}
+.button,.volume-option,.screen-tab,.menu-toggle,.closing-arrow{touch-action:manipulation}
+.button:active{transform:none}
+@media(hover:hover) and (pointer:fine){.hero-secondary:hover{color:var(--green)}}
+@media(hover:none){.button:hover .button-arrow .icon{transform:rotate(-35deg)}.text-link:hover>.icon{transform:none}.workspace-frame:hover{transform:none}.closing-action:hover .closing-arrow{transform:none}}
+@media(max-width:1200px){.hero{padding-top:40px;gap:20px}.hero h1{font-size:clamp(48px,5.3vw,65px)}.hero-art{height:430px}.hero-lead{font-size:15px}.art-label>span{font-size:11px}}
+@media(max-width:1000px) and (min-width:601px){.hero{grid-template-columns:1fr;gap:10px}.hero-copy{max-width:none}.hero h1{font-size:clamp(62px,8.3vw,80px)}.hero-lead{max-width:500px}.hero-art{width:min(650px,100%);height:420px;justify-self:center}.hero-bottom{padding-top:8px}.art-label>span{font-size:12px}}
+@media(max-width:600px){
+ .hero{grid-template-columns:1fr;padding-top:30px;gap:16px}
+ .hero h1{font-size:clamp(38px,10.7vw,62px);line-height:1.08}
+ .hero-lead{max-width:360px;font-size:15px;line-height:1.8}
+ .hero-art{width:100%;height:320px;margin:0;inset:auto}
+ .scene-legend{inset:0 0 auto;gap:10px}
+ .art-label{font-size:14px;gap:4px}.art-label>span{font-size:10px}
+ .art-stamp{display:block;inset:auto 0 0;font-size:11px;white-space:normal}
+ .hero-bottom{margin:0;padding-block:6px 28px;font-size:11px}
+ .capability-blue{padding:28px;min-height:0}.capability-brand{font-size:32px;padding-top:0}
+ .parcel-scene{height:280px;margin-block:5px}.flow-scene{height:270px;max-width:none;margin-top:10px}
+ .screen-tab[data-screen=cdek].active{border-color:var(--green)}
+ .closing{padding-top:0}.closing-arrow{width:72px;height:72px}
+}
+@media(prefers-reduced-motion:reduce){.art-stamp{display:none}.hero-art canvas,.mini-scene canvas{cursor:default}}

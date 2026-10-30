@@ -1,0 +1,24 @@
+[Unit]
+Description=OZON CDEK contact form to Telegram
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/OZON-CDEK/server
+EnvironmentFile=/var/www/OZON-CDEK/.private/telegram.env
+Environment=LEADS_DB=/var/www/OZON-CDEK/data/leads.sqlite3
+Environment=LEADS_PORT=4193
+ExecStart=/usr/bin/python3 /var/www/OZON-CDEK/server/leads.py
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/OZON-CDEK/data
+
+[Install]
+WantedBy=multi-user.target

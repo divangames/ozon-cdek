@@ -1,0 +1,94 @@
+/* Keep the complete seven-stage walkthrough within a desktop viewport. */
+#how{padding-block:28px}
+#how .process-layout{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:16px 56px;align-items:start}
+#how .process-intro{display:contents}
+#how .process-intro>h2{grid-column:1;grid-row:1;font-size:36px;line-height:1.12;letter-spacing:-.03em}
+#how .process-intro>p{grid-column:1;grid-row:2;margin:0;max-width:46ch;font-size:14px;line-height:1.6}
+#how .order-receipt{grid-column:1;grid-row:3;width:100%;max-width:420px;margin:0;padding:16px 18px}
+#how .process-steps{grid-column:2;grid-row:1/4;gap:4px}
+#how .process-step{padding:10px 0;min-height:44px;gap:14px;align-items:flex-start}
+#how .step-copy{gap:8px}
+#how .step-title{font-size:18px;line-height:1.4;letter-spacing:-.02em}
+#how .step-description{display:none;font-size:14px;line-height:1.6;max-width:48ch}
+#how .process-step.active .step-description{display:block}
+#how .step-index{font-size:12px;padding-top:4px}
+#how .step-arrow{width:28px;height:28px;margin-top:0}
+#how .step-arrow .icon{width:14px;height:14px}
+#how .process-facts{grid-column:1/-1;grid-row:4;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:4px 0 0;max-width:100%}
+#how .process-facts p{gap:3px;font-size:13px;line-height:1.5}
+#how .process-facts strong{font-size:17px;line-height:1.4}
+#how .demo-stage{height:194px;margin-block:12px}
+#how .demo-brand,#how .demo-return{font-size:21px}
+#how .demo-brand>span{font-size:12px}
+#how .demo-checkout{margin-block:18px;gap:14px}
+#how .demo-product-icon{width:54px;height:54px;border-radius:12px}
+#how .demo-product-icon>.icon{width:34px;height:34px}
+#how .demo-checkout strong,#how .demo-api-response strong{font-size:17px}
+#how .demo-checkout div>span{font-size:12px;margin-top:5px}
+#how .demo-delivery-choice{padding:12px;font-size:12px}
+#how .demo-inbox{margin-top:12px;padding:13px}
+#how .demo-inbox-heading strong{font-size:16px}
+#how .demo-order-status{margin-top:12px;padding:6px 10px;font-size:12px}
+#how .demo-inbox p{margin-top:10px;font-size:12px;line-height:1.5}
+#how .demo-package{margin-block:18px;gap:16px}
+#how .demo-package>.icon{width:46px;height:46px}
+#how .demo-checks{font-size:12px;gap:8px}
+#how .demo-polling{margin-block:12px;gap:7px}
+#how .demo-polling>.icon{width:32px;height:32px}
+#how .demo-polling strong{font-size:18px}
+#how .demo-filters>span{font-size:11px;padding:6px}
+#how .demo-waybill{padding:13px;margin:3px 5px}
+#how .waybill-heading strong{font-size:22px}
+#how .demo-waybill>p{font-size:16px;margin-top:10px}
+#how .waybill-route{margin-block:12px}
+#how .demo-barcode{height:20px}
+#how .waybill-caption{font-size:11px;margin-top:8px}
+#how .demo-api-response{margin-block:14px;gap:7px}
+#how .demo-api-response>.icon{width:30px;height:30px}
+#how .demo-panel[data-demo-panel="6"]>.demo-return{margin-bottom:16px}
+#how .demo-status-card{padding:14px}
+#how .demo-status-success strong{font-size:17px}
+#how .demo-final-note{margin-top:10px;font-size:12px;line-height:1.5}
+#how .demo-switcher{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:10px}
+#how .demo-switcher button{min-height:36px;padding:6px 2px;font-size:12px}
+#how .demo-switcher button:last-child{grid-column:auto}
+#how .receipt-status{min-height:36px;font-size:12px}
+#how .demo-playback{margin-top:4px;padding-top:4px;font-size:12px}
+#how .demo-pause{min-height:36px;font-size:12px;padding:6px 8px}
+@media(min-width:801px) and (max-width:1100px){
+ #how .process-layout{gap:14px 32px}
+ #how .process-intro>h2{font-size:30px}
+ #how .order-receipt{padding:14px}
+ #how .demo-switcher{grid-template-columns:repeat(4,minmax(0,1fr))}
+ #how .demo-switcher button{font-size:11px}
+ #how .demo-switcher button:last-child{grid-column:span 2}
+ #how .step-title{font-size:17px}
+}
+@media(min-width:1101px) and (max-height:760px){
+ #how{padding-block:22px}
+ #how .process-intro>h2{font-size:32px}
+ #how .process-layout{row-gap:12px}
+ #how .demo-stage{height:184px;margin-block:10px}
+}
+@media(max-width:800px){
+ #how{padding-block:20px}
+ #how .process-layout{display:flex;flex-direction:column;gap:12px}
+ #how .process-intro>h2{order:0;font-size:30px}
+ #how .process-intro>p{order:1;font-size:14px;max-width:54ch}
+ #how .process-steps{order:2;width:100%;min-height:84px}
+ #how .process-step{display:none;padding:0}
+ #how .process-step.active{display:flex}
+ #how .step-title{font-size:17px}
+ #how .step-description{font-size:14px}
+ #how .step-arrow{display:none}
+ #how .order-receipt{order:3;align-self:center;max-width:400px;padding:14px}
+ #how .demo-stage{height:190px;margin-block:8px}
+ #how .process-facts{order:4;align-self:stretch;grid-template-columns:.8fr 1.1fr 1.1fr;gap:12px;margin:0}
+ #how .process-facts strong{font-size:14px}
+ #how .process-facts p{font-size:12px}
+ #how .demo-switcher{grid-template-columns:repeat(4,minmax(0,1fr))}
+ #how .demo-switcher button{font-size:12px;min-height:44px}
+ #how .demo-switcher button:last-child{grid-column:span 2}
+ #how .demo-pause{min-height:44px}
+}
+@media(max-width:360px){#how .demo-stage{height:218px}}

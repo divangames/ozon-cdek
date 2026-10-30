@@ -1,5 +1,5 @@
 /* Keep the complete seven-stage walkthrough within a desktop viewport. */
-#how{padding-block:28px}
+#how{padding-block:44px}
 #how .process-layout{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:16px 56px;align-items:start}
 #how .process-intro{display:contents}
 #how .process-intro>h2{grid-column:1;grid-row:1;font-size:36px;line-height:1.12;letter-spacing:-.03em}
@@ -14,7 +14,7 @@
 #how .step-index{font-size:12px;padding-top:4px}
 #how .step-arrow{width:28px;height:28px;margin-top:0}
 #how .step-arrow .icon{width:14px;height:14px}
-#how .process-facts{grid-column:1/-1;grid-row:4;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:4px 0 0;max-width:100%}
+#how .process-facts{grid-column:1/-1;grid-row:4;width:100%;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin:12px 0 0;padding:16px 24px;background:#20242c;border-radius:16px;max-width:100%}
 #how .process-facts p{gap:3px;font-size:13px;line-height:1.5}
 #how .process-facts strong{font-size:17px;line-height:1.4}
 #how .demo-stage{height:194px;margin-block:12px}
@@ -65,13 +65,13 @@
  #how .step-title{font-size:17px}
 }
 @media(min-width:1101px) and (max-height:760px){
- #how{padding-block:22px}
+ #how{padding-block:30px}
  #how .process-intro>h2{font-size:32px}
  #how .process-layout{row-gap:12px}
  #how .demo-stage{height:184px;margin-block:10px}
 }
 @media(max-width:800px){
- #how{padding-block:20px}
+ #how{padding-block:24px}
  #how .process-layout{display:flex;flex-direction:column;gap:12px}
  #how .process-intro>h2{order:0;font-size:30px}
  #how .process-intro>p{order:1;font-size:14px;max-width:54ch}
@@ -83,7 +83,7 @@
  #how .step-arrow{display:none}
  #how .order-receipt{order:3;align-self:center;max-width:400px;padding:14px}
  #how .demo-stage{height:190px;margin-block:8px}
- #how .process-facts{order:4;align-self:stretch;grid-template-columns:.8fr 1.1fr 1.1fr;gap:12px;margin:0}
+ #how .process-facts{order:4;align-self:stretch;grid-template-columns:.8fr 1.1fr 1.1fr;gap:10px;margin:0;padding:8px 10px;border-radius:12px}
  #how .process-facts strong{font-size:14px}
  #how .process-facts p{font-size:12px}
  #how .demo-switcher{grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -91,4 +91,5 @@
  #how .demo-switcher button:last-child{grid-column:span 2}
  #how .demo-pause{min-height:44px}
 }
-@media(max-width:360px){#how .demo-stage{height:218px}}
+@media(min-width:801px) and (max-height:800px){#how{padding-block:32px}#how .process-facts{padding:12px 20px;margin-top:8px}}
+@media(max-width:360px){#how .demo-stage{height:218px}#how .process-facts p{font-size:11px}}

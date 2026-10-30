@@ -14,8 +14,8 @@ conn.on('ready',async()=>{let oldConfig,sftp;try{
  await exec(conn,`install -d -m 755 ${target} ${target}/site ${target}/server && install -d -m 700 ${target}/.private && install -d -m 700 -o www-data -g www-data ${target}/data`);
  sftp=await new Promise((resolve,reject)=>conn.sftp((e,s)=>e?reject(e):resolve(s)));
  await upload(sftp,path.join(root,'dist'),target+'/site');console.log('Сайт и медиа загружены');
- for(const dir of ['src','scripts','server','deploy'])await upload(sftp,path.join(root,dir),target+'/'+dir);
- for(const file of ['package.json','package-lock.json','index.html','vite.config.mjs','README.md','PRODUCT.md','DESIGN.md','.gitignore'])if(fs.existsSync(path.join(root,file)))await write(sftp,target+'/'+file,fs.readFileSync(path.join(root,file)));
+ for(const dir of ['src','scripts','server','deploy','public'])await upload(sftp,path.join(root,dir),target+'/'+dir);
+ for(const file of ['package.json','package-lock.json','index.html','vite.config.mjs','README.md','PRODUCT.md','DESIGN.md','.gitignore','.gitattributes'])if(fs.existsSync(path.join(root,file)))await write(sftp,target+'/'+file,fs.readFileSync(path.join(root,file)));
  const credentials=Object.fromEntries(fs.readFileSync(path.join(root,'info/Telegram.txt'),'utf8').split(/\r?\n/).filter(l=>l.includes('=')).map(l=>{const i=l.indexOf('=');return[l.slice(0,i).trim(),l.slice(i+1).trim()];}));
  if(!/^\d{6,}:[A-Za-z0-9_-]{20,}$/.test(credentials.TELEGRAM_BOT_TOKEN||'')||!/^[-\d]+$/.test(credentials.TELEGRAM_CHAT_ID||''))throw Error('Проверьте info/Telegram.txt');
  await write(sftp,target+'/.private/telegram.env',`TELEGRAM_BOT_TOKEN=${credentials.TELEGRAM_BOT_TOKEN}\nTELEGRAM_CHAT_ID=${credentials.TELEGRAM_CHAT_ID}\nLEADS_ORIGIN=https://${config.host},https://divangames.github.io\n`,0o600);

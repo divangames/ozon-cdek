@@ -96,7 +96,7 @@
 
 /* Desktop proportions follow the supplied 1152px reference at an 0.8 scale. */
 @media(min-width:1001px){
- #how{--process-unit:clamp(.8px,.069444444vw,1px);margin-inline:0;border-radius:0;background:#0b1016;padding-block:calc(24 * var(--process-unit)) calc(14 * var(--process-unit))}
+ #how{--process-unit:clamp(.8px,.069444444vw,1px);margin-inline:20px;border-radius:36px;background:#0b1016;padding-block:calc(52 * var(--process-unit))}
  #how .process-layout{width:min(1440px,calc(100% - 76 * var(--process-unit)));grid-template-columns:minmax(0,calc(425 * var(--process-unit))) minmax(0,1fr);gap:calc(16 * var(--process-unit)) calc(90 * var(--process-unit))}
  #how .process-intro>h2{font-size:calc(36 * var(--process-unit))}
  #how .order-receipt{max-width:calc(425 * var(--process-unit));padding:calc(16 * var(--process-unit)) calc(18 * var(--process-unit));background:#1f2631;border-radius:calc(18 * var(--process-unit))}

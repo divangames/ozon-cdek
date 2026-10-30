@@ -1,0 +1,1 @@
+export const brandLogo=(brand,extraClass='')=>`<img class="brand-logo brand-logo-${brand.toLowerCase()} ${extraClass}" src="./images/${brand}_logo.svg" width="${brand==='CDEK'?64:70}" height="18" alt="${brand}">`;

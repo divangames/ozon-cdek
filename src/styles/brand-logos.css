@@ -1,0 +1,11 @@
+/* Wordmarks keep the footprint of the original text labels. */
+.brand-logo{display:block;flex:none;width:70px;height:auto;max-width:100%;object-fit:contain}
+.brand-logo-cdek{width:64px}
+.demo-delivery-choice .brand-logo{width:48px}
+.demo-switcher .brand-logo-tab{width:30px;max-height:12px;margin:auto}
+.demo-switcher .brand-logo-tab.brand-logo-cdek{width:28px}
+.demo-switcher .active .brand-logo{filter:brightness(0) invert(1)}
+.scene-legend .brand-logo{width:52px;height:auto;margin-bottom:6px}
+.scene-legend .brand-logo-cdek{width:48px;margin-left:auto}
+.capability-brand .brand-logo{width:104px;height:30px;max-width:40%;object-fit:contain;filter:brightness(0) invert(1)}
+@media(max-width:360px){.capability-brand .brand-logo{width:90px}}

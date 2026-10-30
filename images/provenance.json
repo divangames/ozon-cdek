@@ -1,0 +1,25 @@
+{
+  "source": "https://cdek-ozon.ru/",
+  "date": "2026-10-30",
+  "cabinet": {
+    "source": "https://space.cdek-ozon.ru",
+    "screens": [
+      "cdek",
+      "ozon",
+      "tariffs",
+      "products"
+    ],
+    "redaction": "API-ключи, контакты и идентификаторы скрыты до снимка"
+  },
+  "cases": [
+    {
+      "file": "case-service.webp",
+      "url": "https://m-files.cdn1.cc/lpfile/5/9/f/59f6978538ce4dbcd30314d3724bf02b/-/crop/0x70x1536x883/-/resize/327/-/resize/1920/f.png?60976251"
+    },
+    {
+      "file": "case-products.webp",
+      "url": "https://m-files.cdn1.cc/lpfile/0/5/f/05f06a472d46b62613ef2ef1edad4386/-/crop/14x0x1174x675/-/resize/327/-/resize/1920/f.png?17279972"
+    }
+  ],
+  "brand": "Логотипы и favicon предоставлены владельцем; фотографии и стоки не добавлялись"
+}

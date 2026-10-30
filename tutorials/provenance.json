@@ -1,0 +1,26 @@
+[
+  {
+    "id": "integration",
+    "source": "video/load/Настройка сервиса.mp4",
+    "treatment": "Убрана верхняя панель с данными аккаунта",
+    "audio": "Сохранён"
+  },
+  {
+    "id": "small-delivery",
+    "source": "video/load/Настройка метода доставки для мелкогабаритного товара.mp4",
+    "treatment": "Оптимизация для веб",
+    "audio": "Сохранён"
+  },
+  {
+    "id": "large-delivery",
+    "source": "video/load/Настройка метода доставки для КГТ.mp4",
+    "treatment": "Оптимизация для веб",
+    "audio": "Сохранён"
+  },
+  {
+    "id": "products",
+    "source": "video/load/Модуль товаров.mp4",
+    "treatment": "Убрана верхняя панель с данными аккаунта",
+    "audio": "Сохранён"
+  }
+]

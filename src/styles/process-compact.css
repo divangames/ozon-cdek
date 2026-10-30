@@ -107,7 +107,7 @@
  #how .step-index{font-size:calc(14 * var(--process-unit))}
  #how .step-arrow{width:calc(34 * var(--process-unit));height:calc(34 * var(--process-unit));background:#26313e}
  #how .process-step.active .step-title{color:#fff}
- #how .process-step.active .step-arrow{background:var(--blue)}
+ #how .process-step.active .step-arrow{background:var(--blue);transform:none}
  #how .process-step.active .step-arrow .icon{transform:rotate(0)}
  #how .process-step[data-step="4"].active .step-arrow,#how .process-step[data-step="5"].active .step-arrow{background:var(--green)}
  #how .process-facts{margin-top:calc(12 * var(--process-unit));padding:calc(16 * var(--process-unit)) calc(24 * var(--process-unit));background:#19212b}

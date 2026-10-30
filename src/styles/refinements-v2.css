@@ -22,3 +22,4 @@
 .footer-legal>p:first-child{font-size:.5em;line-height:1.8}
 .footer-bottom-content{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:40px;align-items:start}.footer-bottom-content>.footer-legal{grid-column:1/3}.footer-bottom-content>.whitecube-credit{grid-column:3;grid-row:1;margin:0}
 @media(max-width:800px){.footer-bottom-content{display:flex;flex-direction:column-reverse;gap:28px}}
+.hero-bottom>p{visibility:hidden}

@@ -1,7 +1,6 @@
 // Доступные действия: этапы обработки, реальные экраны и навигация.
 import {icon} from './icons';
-import {steps} from './content';
-import {selectDemo,initDemoPlayback} from './process-demo';
+import {selectDemo,initDemoPlayback,demoStages} from './process-demo';
 // Инициализирует состояния презентации, не меняя данные внешнего сервиса.
 export function initInteractions(){
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
@@ -11,16 +10,16 @@ export function initInteractions(){
  menuButton.addEventListener('click',()=>setMenu(menu.hidden));
  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>setMenu(false)));
  document.addEventListener('keydown',event=>{if(event.key==='Escape')setMenu(false);});
- function setStep(index,manual){
+ function setStep(index,manual,instant=false){
   const selected=document.querySelector(`[data-step="${index}"]`);
   document.querySelectorAll('[data-step]').forEach(item=>{const active=item===selected;item.classList.toggle('active',active);item.setAttribute('aria-pressed',String(active));});
-  selectDemo(index,reduced.matches);
+  selectDemo(index,reduced.matches||instant);
   const status=document.querySelector('#demo-status');
   status.setAttribute('aria-live',manual?'polite':'off');
-  status.textContent=steps[index][3];
+  status.textContent=demoStages[index].status;
  }
  const manualStep=initDemoPlayback(setStep,reduced);
- document.querySelectorAll('[data-step],[data-demo-step]').forEach(button=>button.addEventListener('click',()=>{manualStep(Number(button.dataset.step??button.dataset.demoStep));if(button.hasAttribute('data-step'))document.querySelectorAll('[data-step]').forEach(item=>{item.classList.toggle('active',item===button);item.setAttribute('aria-pressed',String(item===button));});}));
+ document.querySelectorAll('[data-step],[data-demo-step]').forEach(button=>button.addEventListener('click',event=>manualStep(Number(button.dataset.step??button.dataset.demoStep),event.detail===0)));
  const tabs=[...document.querySelectorAll('[data-screen]')];
  // Меняет настоящий скриншот и обеспечивает управление вкладками с клавиатуры.
  function selectScreen(button){tabs.forEach(tab=>{const active=tab===button;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;document.querySelector(`#screen-${tab.dataset.screen}`).hidden=!active;});}

@@ -21,5 +21,12 @@
       "url": "https://m-files.cdn1.cc/lpfile/0/5/f/05f06a472d46b62613ef2ef1edad4386/-/crop/14x0x1174x675/-/resize/327/-/resize/1920/f.png?17279972"
     }
   ],
-  "brand": "Логотипы и favicon предоставлены владельцем; фотографии и стоки не добавлялись"
+  "brand": "Логотипы и favicon предоставлены владельцем; фотографии и стоки не добавлялись",
+  "deviceAnimations": {
+    "desktop": "images/desctop.gif",
+    "mobile": "images/mobile.gif",
+    "redaction": "В публичной desktop-копии закрыты реквизиты аккаунта и API",
+    "reducedMotion": "Статичные кадры вместо GIF"
+  },
+  "footerLogo": "images/whitecube.gif"
 }

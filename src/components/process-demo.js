@@ -1,16 +1,22 @@
 import {icon} from './icons';
+import {fullProcess} from './content';
+
+export const demoStages=[
+ {label:'Покупка',status:'Покупатель оформил заказ',body:`<div class="demo-brand">OZON <span>Покупка</span></div><div class="demo-checkout"><span class="demo-product-icon">${icon('box')}</span><div><strong>Заказ оформлен</strong><span>Товар выбран покупателем</span></div></div><div class="demo-delivery-choice"><span>Способ доставки</span><strong>CDEK ${icon('check')}</strong></div>`},
+ {label:'Кабинет',status:'Новый заказ в кабинете OZON',body:`<div class="demo-brand">OZON <span>Личный кабинет</span></div><div class="demo-inbox"><div class="demo-inbox-heading">${icon('document')}<strong>Новый заказ</strong></div><span class="demo-order-status">Ожидает сборки</span><p>Продавец видит заказ<br>в личном кабинете</p></div>`},
+ {label:'Сборка',status:'Заказ готов к отгрузке',body:`<div class="demo-brand">OZON <span>Сборка заказа</span></div><div class="demo-package">${icon('box')}<span>Отправление<br><strong>Ожидает отгрузки</strong></span></div><div class="demo-checks"><span>${icon('check')} Товары собраны</span><span>${icon('check')} Кнопка «Собрать» нажата</span></div>`},
+ {label:'Сервис',status:'Сервис получил заказ без трек-номера',body:`<div class="demo-brand">Сервис <span>Обработка</span></div><div class="demo-polling">${icon('clock')}<strong>Каждые 2 минуты</strong><span>Проверяем заказы OZON</span></div><div class="demo-filters"><span>${icon('check')} Ожидает отгрузки</span><span>${icon('check')} Без трек-номера</span></div>`},
+ {label:'CDEK',status:'Накладная создана в CDEK',body:`<div class="demo-waybill"><div class="waybill-heading"><strong>CDEK</strong>${icon('document')}</div><p>Накладная создана</p><div class="waybill-route"><span>Отправитель</span>${icon('arrow')}<span>Получатель</span></div><div class="demo-barcode" aria-hidden="true"></div><span class="waybill-caption">Образец документа · ваш договор CDEK</span></div>`},
+ {label:'Трек',status:'Трек-номер получен от API CDEK',body:`<div class="demo-brand demo-brand-cdek">CDEK <span>Ответ API</span></div><div class="demo-api-response">${icon('document')}<strong>Трек-номер получен</strong><span>Готов к передаче в OZON</span></div><div class="demo-checks"><span>${icon('check')} Накладная зарегистрирована</span><span>${icon('check')} API CDEK вернул трек-номер</span></div>`},
+ {label:'В OZON',status:'Трек-номер прикреплён к заказу OZON',body:`<div class="demo-return"><strong>CDEK</strong><span>${icon('arrow')}</span><strong>OZON</strong></div><div class="demo-status-card"><div class="demo-status-success">${icon('check')}<div><strong>Заказ обновлён</strong><span>Трек-номер прикреплён</span></div></div><p class="demo-final-note">Теперь трек-номер доступен<br>в заказе OZON</p></div>`},
+];
 
 // Illustrative workflow only: no real customer, order or tracking identifiers.
 export const processDemo=`<div class="order-receipt" data-ui data-demo-state="0">
  <div class="receipt-top"><span>${icon('box')} Путь заказа</span><span>Демонстрация</span></div>
- <div class="demo-stage">
-  <div class="demo-panel" data-demo-panel="0"><div class="demo-brand">OZON <span>Заказ собран</span></div><div class="demo-package">${icon('box')}<span>Отправление<br><strong>Готово к передаче</strong></span></div><div class="demo-checks"><span>${icon('check')} Товары собраны</span><span>${icon('check')} Данные получателя готовы</span></div></div>
-  <div class="demo-panel" data-demo-panel="1" hidden><div class="demo-waybill"><div class="waybill-heading"><strong>CDEK</strong>${icon('document')}</div><p>Накладная создана</p><div class="waybill-route"><span>Отправитель</span>${icon('arrow')}<span>Получатель</span></div><div class="demo-barcode" aria-hidden="true"></div><span class="waybill-caption">Образец документа · ваш договор CDEK</span></div></div>
-  <div class="demo-panel" data-demo-panel="2" hidden><div class="demo-return"><strong>CDEK</strong><span>${icon('arrow')}</span><strong>OZON</strong></div><div class="demo-tracking">${icon('check')}<span>Трек-номер<br><strong>прикреплён к заказу</strong></span></div><div class="demo-checks"><span>${icon('check')} Накладная в CDEK</span><span>${icon('check')} Трек-номер в OZON</span></div></div>
-  <div class="demo-panel" data-demo-panel="3" hidden><div class="demo-status-card"><div class="demo-status-heading"><span>Обновление в OZON</span>${icon('clock')}</div><div class="demo-status-success">${icon('check')}<div><strong>Заказ обновлён</strong><span>В кабинете OZON</span></div></div><ol class="demo-status-timeline"><li><span class="demo-status-dot"></span><div><strong>CDEK</strong><span>Накладная создана</span></div></li><li><span class="demo-status-dot"></span><div><strong>OZON</strong><span>Трек-номер прикреплён к заказу</span></div></li></ol></div></div>
- </div>
- <div class="demo-switcher" role="group" aria-label="Демонстрация этапов">${['Заказ','Накладная','Трек','Статус'].map((label,i)=>`<button type="button" data-demo-step="${i}" aria-pressed="${i===0}" class="${i===0?'active':''}">${label}</button>`).join('')}</div>
- <div class="receipt-status"><span class="live-dot"></span><span id="demo-status" aria-live="polite">Заказ готов к отгрузке</span>${icon('check')}</div>
+ <div class="demo-stage">${demoStages.map((stage,i)=>`<div class="demo-panel" id="demo-panel-${i}" data-demo-panel="${i}" role="group" aria-label="${fullProcess[i][0]}" ${i===0?'':'hidden'}>${stage.body}</div>`).join('')}</div>
+ <div class="demo-switcher" role="group" aria-label="Демонстрация этапов">${demoStages.map((stage,i)=>`<button type="button" data-demo-step="${i}" aria-label="Шаг ${i+1}: ${fullProcess[i][0]}" aria-controls="demo-panel-${i}" aria-pressed="${i===0}" class="${i===0?'active':''}">${stage.label}</button>`).join('')}</div>
+ <div class="receipt-status"><span class="live-dot"></span><span id="demo-status" aria-live="polite">${demoStages[0].status}</span>${icon('check')}</div>
  <div class="demo-playback"><span>Автопоказ этапов</span><button type="button" class="demo-pause" aria-label="Приостановить автопоказ">Пауза</button></div>
 </div>`;
 
@@ -50,5 +56,5 @@ export function initDemoPlayback(select,reduced){
  reduced.addEventListener('change',refresh);
  document.querySelector('#demo-status').setAttribute('aria-live','off');
  refresh();
- return index=>{manualUntil=Date.now()+manualReadingInterval;select(index,true);schedule();};
+  return (index,instant=false)=>{manualUntil=Date.now()+manualReadingInterval;select(index,true,instant);schedule();};
 }

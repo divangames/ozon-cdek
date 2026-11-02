@@ -1,9 +1,13 @@
 import {defineConfig} from 'vite';
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
+import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 
 const root=path.dirname(fileURLToPath(import.meta.url));
+// Keep disposable Vite files off the project volume, whose old cache is unreadable.
+const cacheDir=path.join(process.env.LOCALAPPDATA||os.tmpdir(),'ozon-cdek','vite',createHash('sha256').update(root).digest('hex').slice(0,16));
 // CopyFile fails intermittently for MP4 on this Windows volume; byte copying keeps builds reliable.
 function copyPublic(source,destination){
  fs.mkdirSync(destination,{recursive:true});
@@ -21,6 +25,8 @@ function copyPublic(source,destination){
  }
 }
 export default defineConfig({
+ cacheDir,
+ server:{watch:{ignored:file=>/[/\\](?:\.private|styles\.damaged-[^/\\]+)(?:[/\\]|$)/.test(file)}},
  build:{copyPublicDir:false},
  plugins:[{name:'reliable-public-assets',writeBundle(options){copyPublic(path.join(root,'public'),path.resolve(root,options.dir||'dist'));}}],
 });

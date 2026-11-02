@@ -1,7 +1,9 @@
 import http.client
+import contextlib
 import importlib.util
 import json
 import os
+import sqlite3
 import tempfile
 import threading
 import unittest
@@ -65,6 +67,8 @@ class LeadsTest(unittest.TestCase):
         response = connection.getresponse()
         result = response.status, json.loads(response.read())
         self.assertEqual(response.getheader('Cache-Control'), 'no-store')
+        if origin in leads.ORIGINS:
+            self.assertEqual(response.getheader('Access-Control-Allow-Origin'), origin)
         connection.close()
         return result
 
@@ -107,6 +111,43 @@ class LeadsTest(unittest.TestCase):
         self.assertEqual(self.post(payload)[0], 200)
         self.assertEqual(len(TelegramMock.messages), 1)
         self.assertEqual(self.post({**payload, 'contact': '+7 999 000-00-01'})[0], 409)
+
+    def test_github_attribution_is_stored_and_delivered(self):
+        origin = leads.GITHUB_ORIGIN
+        leads.ORIGINS.add(origin)
+        try:
+            payload = self.payload(source='site')
+            self.assertEqual(self.post(payload, origin=origin)[0], 200)
+            self.assertIn('Источник: GitHub Pages (GitHub)', TelegramMock.messages[-1]['text'])
+            self.assertIn('https://divangames.github.io/ozon-cdek/', TelegramMock.messages[-1]['text'])
+            with leads.database() as connection:
+                self.assertEqual(connection.execute('SELECT source FROM leads WHERE id = ?', (payload['submissionId'],)).fetchone()[0], 'github')
+            self.assertEqual(self.post(payload, origin=origin)[0], 200)
+            self.assertEqual(len(TelegramMock.messages), 1)
+            self.assertEqual(self.post(payload)[0], 409)
+        finally:
+            leads.ORIGINS.remove(origin)
+
+    def test_site_cannot_claim_github_attribution(self):
+        payload = self.payload(source='github')
+        self.assertEqual(self.post(payload)[0], 200)
+        self.assertIn('Источник: Сайт', TelegramMock.messages[-1]['text'])
+        with leads.database() as connection:
+            self.assertEqual(connection.execute('SELECT source FROM leads WHERE id = ?', (payload['submissionId'],)).fetchone()[0], 'site')
+
+    def test_existing_database_keeps_leads_during_migration(self):
+        original = leads.DB_PATH
+        leads.DB_PATH = os.path.join(self.temporary.name, 'old-schema.sqlite3')
+        try:
+            with contextlib.closing(sqlite3.connect(leads.DB_PATH)) as connection:
+                connection.execute("CREATE TABLE leads (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, name TEXT NOT NULL, contact_type TEXT NOT NULL, contact TEXT NOT NULL, plan TEXT NOT NULL DEFAULT 'consultation', delivered INTEGER NOT NULL DEFAULT 0)")
+                connection.execute("INSERT INTO leads VALUES ('existing', '2026-01-01', 'Test', 'phone', '+79990000000', '500', 1)")
+                connection.commit()
+            for _ in range(2):
+                with leads.database() as connection:
+                    self.assertEqual(connection.execute("SELECT plan, source, delivered FROM leads WHERE id = 'existing'").fetchone(), ('500', 'site', 1))
+        finally:
+            leads.DB_PATH = original
 
     def test_telegram_failure_is_not_success_and_can_retry(self):
         payload = self.payload()

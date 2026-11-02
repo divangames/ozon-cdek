@@ -3,7 +3,7 @@
 @font-face{font-family:Montserrat;src:url('/fonts/montserrat-medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
 @font-face{font-family:Montserrat;src:url('/fonts/montserrat-semibold.ttf') format('truetype');font-weight:600;font-style:normal;font-display:swap}
 @font-face{font-family:Montserrat;src:url('/fonts/montserrat-bold.ttf') format('truetype');font-weight:700 800;font-style:normal;font-display:swap}
-:root{--blue:#005bff;--blue-deep:#0047d0;--green:#00a738;--ink:#17191f;--muted:#60646f;--paper:#fff;--ground:#f5f6f8;--soft:#e9ecf1;--night:#15171c;--night-muted:#a8adb9;--line:#dce0e7;--radius:24px;--ease:cubic-bezier(.23,1,.32,1);font-family:Montserrat,sans-serif;font-synthesis:none;color:var(--ink);font-weight:400;scroll-behavior:smooth;scroll-padding-top:30px}
+:root{--blue:#005bff;--blue-deep:#0047d0;--green:#00a738;--ink:#17191f;--muted:#60646f;--paper:#fff;--ground:#f5f6f8;--cases-surface:#e5f3e9;--soft:#e9ecf1;--night:#15171c;--night-muted:#a8adb9;--line:#dce0e7;--radius:24px;--ease:cubic-bezier(.23,1,.32,1);font-family:Montserrat,sans-serif;font-synthesis:none;color:var(--ink);font-weight:400;scroll-behavior:smooth;scroll-padding-top:30px}
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground)}
 button,a{-webkit-tap-highlight-color:transparent}

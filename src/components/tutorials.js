@@ -14,7 +14,7 @@ export const tutorialSection=`
  <div class="tutorials-heading"><h2 id="tutorials-title">Настройка<br>сервиса</h2><div class="tutorial-copy"><p>Для настройки сервиса Вам понадобятся API-ключи OZON и CDEK. Интеграция настраивается в нашем личном кабинете <a href="https://space.cdek-ozon.ru" target="_blank" rel="noopener">space.cdek-ozon.ru</a></p><p>Так же Вы можете ознакомиться с инструкцией в виде презентации:</p><a class="text-link" href="https://disk.yandex.ru/i/3ltrtHSdAgiWRg" target="_blank" rel="noopener">Скачать инструкцию ${icon('arrow')}</a></div></div>
  <div class="tutorials-layout">
   <div class="tutorial-player">
-   <video id="tutorial-video" controls playsinline preload="none" width="1536" height="960" poster="${mediaPath(tutorials[0].id)}.webp" src="${mediaPath(tutorials[0].id)}.mp4" aria-labelledby="tutorial-current-title"><a href="${mediaPath(tutorials[0].id)}.mp4">Открыть видео настройки интеграции</a></video>
+   <video id="tutorial-video" controls muted playsinline preload="none" width="1536" height="960" poster="${mediaPath(tutorials[0].id)}.webp" src="${mediaPath(tutorials[0].id)}.mp4" aria-labelledby="tutorial-current-title"><a href="${mediaPath(tutorials[0].id)}.mp4">Открыть видео настройки интеграции</a></video>
    <div class="tutorial-caption"><h3 id="tutorial-current-title" aria-live="polite">${tutorials[0].title}</h3><a class="text-link tutorial-direct" href="${mediaPath(tutorials[0].id)}.mp4" target="_blank" rel="noopener">Открыть отдельно ${icon('arrow')}</a></div>
    <p class="tutorial-error" role="status" hidden>Не удалось загрузить видео. Попробуйте открыть его отдельно по ссылке выше.</p>
   </div>
@@ -29,9 +29,31 @@ export function initTutorials(){
  const title=document.querySelector('#tutorial-current-title');
  const direct=document.querySelector('.tutorial-direct');
  const error=document.querySelector('.tutorial-error');
+ let visible=false,userPaused=false,changingSource=false;
+ video.muted=true;
+ const updatePlayback=()=>{
+  if(!visible||document.hidden){video.pause();return;}
+  if(userPaused||video.ended)return;
+  video.muted=true;
+  // Autoplay can be blocked by browser settings; native controls remain available.
+  video.play().catch(()=>{});
+ };
+ const observer=new IntersectionObserver(([entry])=>{
+  visible=entry.isIntersecting&&entry.intersectionRatio>=.35;
+  updatePlayback();
+ },{threshold:[0,.35]});
+ observer.observe(video);
+ document.addEventListener('visibilitychange',updatePlayback);
+ video.addEventListener('pause',()=>{
+  if(visible&&!document.hidden&&!changingSource&&!video.ended)userPaused=true;
+ });
+ video.addEventListener('play',()=>{userPaused=false;});
+ video.addEventListener('loadedmetadata',()=>{changingSource=false;});
  buttons.forEach(button=>button.addEventListener('click',event=>{
   if(button.getAttribute('aria-pressed')==='true')return;
   const lesson=tutorials.find(item=>item.id===button.dataset.tutorial);
+  changingSource=true;
+  userPaused=false;
   video.pause();
   error.hidden=true;
   video.poster=`${mediaPath(lesson.id)}.webp`;
@@ -43,6 +65,7 @@ export function initTutorials(){
   direct.href=video.src;
   buttons.forEach(item=>{const selected=item===button;item.classList.toggle('active',selected);item.setAttribute('aria-pressed',String(selected));});
   if(event.detail>0&&matchMedia('(max-width:900px)').matches)video.scrollIntoView({block:'nearest',behavior:'instant'});
+  updatePlayback();
  }));
  video.addEventListener('error',()=>{error.hidden=false;});
 }

@@ -21,6 +21,7 @@ CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID', '')
 TELEGRAM_BASE = os.environ.get('TELEGRAM_API_BASE', 'https://api.telegram.org')
 ORIGIN = os.environ.get('LEADS_ORIGIN', 'https://cdek-ozon.ru')
 ORIGINS = {value.strip() for value in ORIGIN.split(',') if value.strip()}
+GITHUB_ORIGIN = 'https://divangames.github.io'
 RATE = collections.OrderedDict()
 RATE_LOCK = threading.Lock()
 DELIVERY_LOCK = threading.Lock()
@@ -29,7 +30,9 @@ DELIVERY_LOCK = threading.Lock()
 @contextlib.contextmanager
 def database():
     connection = sqlite3.connect(DB_PATH, timeout=5)
-    connection.execute("CREATE TABLE IF NOT EXISTS leads (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, name TEXT NOT NULL, contact_type TEXT NOT NULL, contact TEXT NOT NULL, plan TEXT NOT NULL DEFAULT 'consultation', delivered INTEGER NOT NULL DEFAULT 0)")
+    connection.execute("CREATE TABLE IF NOT EXISTS leads (id TEXT PRIMARY KEY, created_at TEXT NOT NULL, name TEXT NOT NULL, contact_type TEXT NOT NULL, contact TEXT NOT NULL, plan TEXT NOT NULL DEFAULT 'consultation', source TEXT NOT NULL DEFAULT 'site', delivered INTEGER NOT NULL DEFAULT 0)")
+    if 'source' not in {column[1] for column in connection.execute('PRAGMA table_info(leads)')}:
+        connection.execute("ALTER TABLE leads ADD COLUMN source TEXT NOT NULL DEFAULT 'site'")
     try:
         with connection:
             yield connection
@@ -55,7 +58,10 @@ def valid_contact(kind, value):
 def send_telegram(record):
     labels = {'phone': 'Телефон', 'telegram': 'Telegram', 'max': 'MAX'}
     icons = {'phone': '📞', 'telegram': '✈️', 'max': '💬'}
-    message = f"📩 Новая заявка · OZON × CDEK\n\n👤 Имя: {record['name']}\n{icons[record['contactType']]} Связь: {labels[record['contactType']]}\nКонтакт: {record['contact']}\nТариф: {record.get('plan', 'consultation')}\n\n🆔 Заявка: {record['submissionId']}\n🌐 Сайт: cdek-ozon.ru"
+    github = record.get('source') == 'github'
+    source = 'GitHub Pages (GitHub)' if github else 'Сайт'
+    site = 'https://divangames.github.io/ozon-cdek/' if github else 'cdek-ozon.ru'
+    message = f"📩 Новая заявка · OZON × CDEK\n\n👤 Имя: {record['name']}\n{icons[record['contactType']]} Связь: {labels[record['contactType']]}\nКонтакт: {record['contact']}\nТариф: {record.get('plan', 'consultation')}\n\n🆔 Заявка: {record['submissionId']}\n🏷 Источник: {source}\n🌐 Сайт: {site}"
     request = urllib.request.Request(f'{TELEGRAM_BASE}/bot{BOT_TOKEN}/sendMessage', data=json.dumps({'chat_id': CHAT_ID, 'text': message, 'link_preview_options': {'is_disabled': True}}).encode(), headers={'Content-Type': 'application/json'})
     try:
         with urllib.request.urlopen(request, timeout=10) as response:
@@ -121,6 +127,8 @@ class Handler(BaseHTTPRequestHandler):
         # Browsers supply Origin for JSON POST; the public endpoint accepts only our site.
         if self.headers.get('Origin') not in ORIGINS:
             return self.reply(403, {'ok': False})
+        # Derive attribution from the approved browser origin, never a supplied form field.
+        source = 'github' if self.headers.get('Origin') == GITHUB_ORIGIN else 'site'
         if self.headers.get('Content-Type', '').split(';')[0].strip() != 'application/json':
             return self.reply(415, {'ok': False})
         try:
@@ -137,6 +145,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.reply(400, {'ok': False})
         if not isinstance(record, dict):
             return self.reply(400, {'ok': False})
+        record['source'] = source
         if record.get('website'):
             return self.reply(400, {'ok': False})
         if record.get('consent') is not True or not clean_text(record.get('name'), 80) or not clean_text(record.get('contact'), 200):
@@ -166,16 +175,16 @@ class Handler(BaseHTTPRequestHandler):
         with DELIVERY_LOCK:
             try:
                 with database() as connection:
-                    previous = connection.execute('SELECT name, contact_type, contact, plan, delivered FROM leads WHERE id = ?', (record['submissionId'],)).fetchone()
-                    identity = (record['name'], record['contactType'], record['contact'], record.get('plan', 'consultation'))
+                    previous = connection.execute('SELECT name, contact_type, contact, plan, source, delivered FROM leads WHERE id = ?', (record['submissionId'],)).fetchone()
+                    identity = (record['name'], record['contactType'], record['contact'], record.get('plan', 'consultation'), record['source'])
                     if previous:
-                        if previous[:4] != identity:
+                        if previous[:5] != identity:
                             return self.reply(409, {'ok': False})
-                        if previous[4]:
+                        if previous[5]:
                             return self.reply(200, {'ok': True})
                     else:
                         created = datetime.datetime.now(datetime.timezone.utc).isoformat()
-                        connection.execute('INSERT INTO leads (id, created_at, name, contact_type, contact, plan) VALUES (?, ?, ?, ?, ?, ?)', (record['submissionId'], created, *identity))
+                        connection.execute('INSERT INTO leads (id, created_at, name, contact_type, contact, plan, source) VALUES (?, ?, ?, ?, ?, ?, ?)', (record['submissionId'], created, *identity))
                 if not send_telegram(record):
                     return self.reply(502, {'ok': False})
                 with database() as connection:
@@ -193,8 +202,8 @@ if __name__ == '__main__':
     if '--export' in sys.argv:
         with database() as connection:
             writer = csv.writer(sys.stdout)
-            writer.writerow(['id', 'created_at', 'name', 'contact_type', 'contact', 'plan', 'delivered'])
-            writer.writerows(connection.execute('SELECT * FROM leads ORDER BY created_at'))
+            writer.writerow(['id', 'created_at', 'name', 'contact_type', 'contact', 'plan', 'source', 'delivered'])
+            writer.writerows(connection.execute('SELECT id, created_at, name, contact_type, contact, plan, source, delivered FROM leads ORDER BY created_at'))
     else:
         port = int(os.environ.get('LEADS_PORT', '4193'))
         ThreadingHTTPServer(('127.0.0.1', port), Handler).serve_forever()

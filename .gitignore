@@ -1,4 +1,5 @@
 node_modules/
+src/styles.damaged-*/
 dist/
 info/
 .private/
